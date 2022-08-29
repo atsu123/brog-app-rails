@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>Rails Camp Blog</title>
+    <%= stylesheet_link_tag "style", "data-turbo-track": "reload" %>
+</head>
+<body>
+
+<header>
+    <p id="logo"><a href="">RailsCamp<span>Blog</span></a></p>
+    <nav>
+        <ul>
+            <a href="/">トップ</a>
+            <a class="post" href="/posts/new">新規投稿</a>
+            <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+            <div class="clear"></div>
+        </ul>
+    </nav>
+    <div class="clear"></div>
+</header>
+
+
+<div id="title">
+    <div>
+        <p><%= @user %></p>
+        <h1><%= @post.title %></h1>
+    </div>
+</div>
+
+<div id="article_wrap">
+
+    <div id="content">
+      <p><%= @post.body%></p>
+    </div>
+
+
+    <div id="sidebar">
+
+        <h2>★PV数ランキング</h2>
+        <ul>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（10PV）</span></a></li>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（8PV）</span></a></li>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（2PV）</span></a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<footer>
+    <div id="footer_inner">
+        <p>Copyright RailsCamp 2015 All Rights Reserved</p>
+    </div>
+</footer>
+
+</body>
+</html> 

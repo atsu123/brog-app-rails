@@ -1,0 +1,27 @@
+<%= stylesheet_link_tag "style", "data-turbo-track": "reload" %>
+<p id="logo"><a href="">RailsCamp<span>Blog</span></a></p>
+<nav>
+    <ul>
+        <a href="/">トップ</a>
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+        <a class="post" href="/posts/new">新規投稿</a>
+        <div class="clear"></div>
+    </ul>
+</nav>
+
+<br>
+<br>
+<br>
+
+
+<%= form_for(@post, url: post_path(@post)) do |f| %>
+    <div>
+        <%= f.label :タイトル %><br>
+        <%= f.text_field :title, autofocus: true, :placeholder =>"#{@post.title}" %>
+    </div>
+    <div>
+        <%= f.label :中身 %><br>
+        <%= f.text_area :body, :placeholder =>"#{@post.body}" %>
+    </div>
+    <div><%= f.submit "Update Article" %></div>
+<% end %>

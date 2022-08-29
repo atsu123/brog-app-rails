@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+    <meta charset="UTF-8">
+    <title>Rails Camp Blog</title>
+    <%= stylesheet_link_tag "style", "data-turbo-track": "reload" %>
+</head>
+<body>
+    <div id = "text-alert">
+        <h2><%= flash[:alert] %><h2>
+    </div>
+<header>
+
+    <p id="logo"><a href="">RailsCamp<span>Blog</span></a></p>
+    <nav>
+        <ul>
+            <% if user_signed_in? %>
+                <a href="/">トップ</a>
+                <a class="post" href="/posts/new">新規投稿</a>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+            <% else %>
+                <a href="/">トップ</a>
+                <%= link_to "新規登録", new_user_registration_path, class: 'post' %>
+                <%= link_to "ログイン", new_user_session_path, class: 'post' %>
+            <% end %>
+            <div class="clear"></div>
+        </ul>
+    </nav>
+</header>
+
+
+<div id="main">
+    <img src="/assets/main-img.jpg">
+</div>
+
+
+<div id="article_wrap">
+    <div id="article_list">
+        <% @posts.each do |post| %>
+        <div>
+            <%= post.title %>
+            <br>
+            <%= post.created_at.strftime('%Y/%m/%d') %>
+            <br>
+            <%= link_to "編集", edit_post_path(post) %>
+            <%= button_to "削除", post_path(post), method: :delete %>
+        </div>
+        <% end %>
+    </div>
+
+    <div id="sidebar">
+
+        <h2>★PV数ランキング</h2>
+        <ul>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（10PV）</span></a></li>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（8PV）</span></a></li>
+            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（2PV）</span></a></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<footer>
+    <div id="footer_inner">
+        <p>Copyright RailsCamp 2015 All Rights Reserved</p>
+    </div>
+</footer>
+
+</body>
+</html> 
