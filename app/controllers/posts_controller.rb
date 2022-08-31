@@ -3,6 +3,10 @@ class PostsController < ActionController::Base
 
     def index
         @posts = Post.all
+        ids = REDIS.zrevrangebyscore "posts/daily/#{Date.today.to_s}", "+inf", 0, limit: [0, 3]
+        @idsr = ids.reverse
+        @rank = @idsr.map{ |id| Post.find(id) }
+
     end
 
     def new
@@ -18,12 +22,16 @@ class PostsController < ActionController::Base
 
     def show
         @post = Post.find(params[:id])
+        REDIS.zincrby "posts/daily/#{Date.today.to_s}", 1, @post.id
+        ids = REDIS.zrevrangebyscore "posts/daily/#{Date.today.to_s}", "+inf", 0, limit: [0, 3]
+        @idsr = ids.reverse
+        @rank = @idsr.map{ |id| Post.find(id) }
         @user = current_user.email
     end
 
     def edit
         @post = Post.find(params[:id])
-        if @post.user_id != current_user.id
+        if @post.user_id == !current_user.id
             redirect_to root_path, flash: {alert: "Not yours"}
         end
     end
@@ -39,10 +47,11 @@ class PostsController < ActionController::Base
 
     def destroy
         post = Post.find(params[:id])
-        if post.user_id == current_user.id
-            post.destroy
-        else
+        if post.user_id == !current_user.id
             redirect_to root_path, flash: {alert: "Not yours"}
+        else
+            post.destroy
+            redirect_to root_path
         end
     end
 

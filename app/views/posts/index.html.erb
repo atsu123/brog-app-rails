@@ -37,25 +37,27 @@
 
 <div id="article_wrap">
     <div id="article_list">
-        <% @posts.each do |post| %>
+        <% @posts.each do |posts| %>
         <div>
-            <%= post.title %>
+            <%= link_to posts.title, post_path(posts) %>
             <br>
-            <%= post.created_at.strftime('%Y/%m/%d') %>
+            <%= posts.created_at.strftime('%Y/%m/%d') %>
             <br>
-            <%= link_to "編集", edit_post_path(post) %>
-            <%= button_to "削除", post_path(post), method: :delete %>
+            <%= link_to "編集", edit_post_path(posts) %>
+            <%= button_to "削除", post_path(posts), method: :delete %>
         </div>
         <% end %>
     </div>
 
     <div id="sidebar">
-
         <h2>★PV数ランキング</h2>
         <ul>
-            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（10PV）</span></a></li>
-            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（8PV）</span></a></li>
-            <li><a href="">記事タイトル記事タイトル１記事タイトル記事タイトル<span>（2PV）</span></a></li>
+            <% @rank.zip(@idsr) do |rank, idsr| %>
+                <li>
+                    <%= link_to rank.title, post_path(rank) %>
+                    (<%= idsr %>PV)
+                </li>
+            <% end %>
         </ul>
     </div>
     <div class="clear"></div>
