@@ -1,5 +1,5 @@
 class PostsController < ActionController::Base
-    before_action :authenticate_user!, only: [:show, :create, :new, :edit, :update, :destroy]
+    before_action :authenticate_user!, only: [:create, :new, :edit, :update, :destroy]
 
     def index
         @posts = Post.all
@@ -22,11 +22,12 @@ class PostsController < ActionController::Base
 
     def show
         @post = Post.find(params[:id])
+        user = @post.user_id
+        @user = User.find(user)
         REDIS.zincrby "posts/daily/#{Date.today.to_s}", 1, @post.id
         ids = REDIS.zrevrangebyscore "posts/daily/#{Date.today.to_s}", "+inf", 0, limit: [0, 3]
         @idsr = ids.reverse
         @rank = @idsr.map{ |id| Post.find(id) }
-        @user = current_user.email
     end
 
     def edit

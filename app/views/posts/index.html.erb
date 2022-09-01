@@ -15,14 +15,13 @@
     <p id="logo"><a href="">RailsCamp<span>Blog</span></a></p>
     <nav>
         <ul>
+            <li><a href="/">トップ</a></li>
             <% if user_signed_in? %>
-                <a href="/">トップ</a>
-                <a class="post" href="/posts/new">新規投稿</a>
-                <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+                <li><a class="post" href="/posts/new">新規投稿</a></li>
+                <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
             <% else %>
-                <a href="/">トップ</a>
-                <%= link_to "新規登録", new_user_registration_path, class: 'post' %>
-                <%= link_to "ログイン", new_user_session_path, class: 'post' %>
+                <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+                <li><%= link_to "ログイン", new_user_session_path, class: 'post' %></li>
             <% end %>
             <div class="clear"></div>
         </ul>
@@ -43,8 +42,10 @@
             <br>
             <%= posts.created_at.strftime('%Y/%m/%d') %>
             <br>
-            <%= link_to "編集", edit_post_path(posts) %>
-            <%= button_to "削除", post_path(posts), method: :delete %>
+            <% if user_signed_in? %>
+                <%= link_to "編集", edit_post_path(posts) %>
+                <%= button_to "削除", post_path(posts), method: :delete %>
+            <% end %>
         </div>
         <% end %>
     </div>

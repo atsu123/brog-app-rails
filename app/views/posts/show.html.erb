@@ -11,9 +11,9 @@
     <p id="logo"><a href="">RailsCamp<span>Blog</span></a></p>
     <nav>
         <ul>
-            <a href="/">トップ</a>
-            <a class="post" href="/posts/new">新規投稿</a>
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+            <li><a href="/">トップ</a></li>
+            <li><a class="post" href="/posts/new">新規投稿</a></li>
+            <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
             <div class="clear"></div>
         </ul>
     </nav>
@@ -23,14 +23,14 @@
 
 <div id="title">
     <div>
-        <p><%= @user %></p>
+        <p><%= @user.email %></p>
         <h1><%= @post.title %></h1>
     </div>
 </div>
 
 <div id="article_wrap">
 
-    <div id="content"> <%= @post.body %> </div>
+    <div id="content"> <p> <%= @post.body %> </p> </div>
 
     <div id="sidebar">
         <h2>★PV数ランキング</h2>
@@ -42,6 +42,7 @@
                 </li>
             <% end %>
         </ul>
+    </div>
     <div class="clear"></div>
 </div>
 
